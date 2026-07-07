@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Onboarding Parceiros — Primeiros Passos</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #f5f5f5;
+      color: #1a1a1a;
+    }
+
+    header {
+      background: #FFE600;
+      padding: 1.5rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      border-bottom: 3px solid #e6cf00;
+    }
+
+    header img { height: 32px; }
+
+    header .logo-text {
+      font-size: 13px;
+      font-weight: 600;
+      color: #1a1a1a;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+
+    header .logo-text span { font-weight: 400; color: #555; }
+
+    .hero {
+      background: #FFE600;
+      padding: 1.25rem 2rem 1.5rem;
+      border-bottom: 3px solid #e6cf00;
+    }
+
+    .hero h1 { font-size: 26px; font-weight: 700; color: #1a1a1a; margin-bottom: 0.5rem; }
+    .hero p { font-size: 15px; color: #444; max-width: 560px; }
+
+    /* Nav */
+    .nav-bar {
+      background: #fff;
+      border-bottom: 1px solid #e0e0e0;
+      padding: 0 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+      overflow-x: auto;
+    }
+
+    .nav-bar a.nav-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 1rem 1rem;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      color: #555;
+      border-bottom: 3px solid transparent;
+      transition: all 0.15s;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .nav-bar a.nav-link:hover {
+      color: #1a1a1a;
+      border-bottom-color: #FFE600;
+      background: #fffce6;
+    }
+
+    .nav-bar a.nav-link .num {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #FFE600;
+      font-size: 11px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #1a1a1a;
+    }
+
+    .nav-btns {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0 0.5rem;
+      flex-shrink: 0;
+    }
+
+    .nav-btns button {
+      background: #1a1a1a;
+      color: #FFE600;
+      border: none;
+      border-radius: 8px;
+      padding: 0.45rem 0.875rem;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.15s;
+    }
+
+    .nav-btns button:hover { background: #333; }
+
+    /* Container */
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 2.5rem 2rem 4rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+    }
+
+    /* Section cards */
+    .section-card {
+      background: #fff;
+      border-radius: 14px;
+      border: 1px solid #e0e0e0;
+      overflow: hidden;
+      scroll-margin-top: 70px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 1.25rem 1.5rem;
+      border-bottom: 1px solid #f0f0f0;
+      background: #fafafa;
+    }
+
+    .step-badge {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: #FFE600;
+      font-size: 14px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #1a1a1a;
+      flex-shrink: 0;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .section-header h2 { font-size: 17px; font-weight: 600; color: #1a1a1a; }
+    .section-header p { font-size: 13px; color: #777; margin-top: 2px; }
+
+    .video-wrap { padding: 1.5rem; }
+
+    video {
+      width: 100%;
+      border-radius: 10px;
+      background: #000;
+      display: block;
+      max-height: 460px;
+    }
+
+    .tip {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      background: #fffce6;
+      border: 1px solid #ffe600;
+      border-radius: 8px;
+      padding: 0.875rem 1rem;
+      margin: 0 1.5rem 1rem;
+      font-size: 13px;
+      color: #555;
+    }
+
+    .tip svg { flex-shrink: 0; margin-top: 1px; }
+
+    /* Accordion */
+    .accordion {
+      margin: 0 1.5rem 1.5rem;
+      border: 1px solid #e0e0e0;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .accordion summary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.875rem 1rem;
+      cursor: pointer;
+      list-style: none;
+      font-size: 13px;
+      font-weight: 600;
+      color: #444;
+      background: #fafafa;
+      user-select: none;
+      gap: 8px;
+    }
+
+    .accordion summary::-webkit-details-marker { display: none; }
+    .accordion summary:hover { background: #f0f0f0; }
+
+    .accordion[open] summary {
+      border-bottom: 1px solid #e0e0e0;
+      background: #fff;
+    }
+
+    .accordion-arrow {
+      font-size: 16px;
+      color: #999;
+      transition: transform 0.2s;
+      flex-shrink: 0;
+    }
+
+    .accordion[open] .accordion-arrow { transform: rotate(90deg); }
+
+    .accordion-body {
+      padding: 1rem 1rem 1.125rem;
+      background: #fff;
+    }
+
+    .accordion-body ol {
+      padding-left: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 13px;
+      color: #444;
+      line-height: 1.6;
+    }
+
+    .accordion-body .alerta {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      background: #fff3f3;
+      border: 1px solid #ffd0d0;
+      border-radius: 7px;
+      padding: 0.75rem;
+      margin-top: 10px;
+      font-size: 12px;
+      color: #cc3333;
+      font-weight: 500;
+    }
+
+    /* Regras de ouro */
+    .ouro-section {
+      background: #FFE600;
+      border-radius: 14px;
+      padding: 1.75rem;
+      scroll-margin-top: 70px;
+    }
+
+    .ouro-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 1.25rem;
+    }
+
+    .ouro-title .label-regras {
+      background: #1a1a1a;
+      color: #FFE600;
+      font-size: 16px;
+      font-weight: 800;
+      padding: 4px 12px;
+      border-radius: 7px;
+    }
+
+    .ouro-title .label-ouro {
+      background: #FFE600;
+      color: #1a1a1a;
+      font-size: 16px;
+      font-weight: 900;
+      padding: 3px 12px;
+      border-radius: 7px;
+      border: 3px solid #1a1a1a;
+    }
+
+    .ouro-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .ouro-item {
+      background: rgba(255,255,255,0.65);
+      border-radius: 10px;
+      padding: 0.875rem;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    .ouro-num {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #1a1a1a;
+      color: #FFE600;
+      font-size: 11px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .ouro-item p { font-size: 12px; color: #1a1a1a; line-height: 1.55; }
+
+    .ouro-alerta {
+      background: rgba(255,255,255,0.75);
+      border-radius: 10px;
+      padding: 0.875rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #1a1a1a;
+    }
+
+    /* CTA */
+    .cta-card {
+      background: #1a1a1a;
+      border-radius: 14px;
+      padding: 2rem;
+    }
+
+    .cta-card h3 { font-size: 18px; font-weight: 600; color: #FFE600; margin-bottom: 4px; }
+    .cta-card .cta-sub { font-size: 13px; color: #888; margin-bottom: 1.25rem; }
+
+    .cta-btns { display: flex; gap: 10px; flex-wrap: wrap; }
+
+    .cta-btn {
+      flex: 1;
+      min-width: 160px;
+      background: #FFE600;
+      color: #1a1a1a;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 0.875rem 1.5rem;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      text-align: center;
+      transition: background 0.15s;
+    }
+
+    .cta-btn:hover { background: #f5d800; }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      font-size: 12px;
+      color: #aaa;
+      border-top: 1px solid #e8e8e8;
+    }
+
+    /* Modal */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal-box {
+      background: #fff;
+      border-radius: 16px;
+      padding: 2rem;
+      max-width: 380px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .modal-icon { font-size: 2rem; margin-bottom: 1rem; }
+
+    .modal-msg {
+      font-size: 15px;
+      color: #1a1a1a;
+      line-height: 1.65;
+      margin-bottom: 1.5rem;
+    }
+
+    .modal-actions { display: flex; gap: 8px; }
+
+    .modal-cancel {
+      flex: 1;
+      padding: 0.875rem;
+      border-radius: 10px;
+      border: 1px solid #e0e0e0;
+      background: #fff;
+      font-size: 14px;
+      cursor: pointer;
+      color: #555;
+    }
+
+    .modal-continue {
+      flex: 1;
+      padding: 0.875rem;
+      border-radius: 10px;
+      border: none;
+      background: #FFE600;
+      color: #1a1a1a;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .modal-cancel:hover { background: #f5f5f5; }
+    .modal-continue:hover { background: #f5d800; }
+
+    /* Mobile */
+    @media (max-width: 600px) {
+      header { padding: 1rem; }
+      .hero { padding: 1.25rem 1rem 1.75rem; }
+      .hero h1 { font-size: 20px; }
+      .hero p { font-size: 14px; }
+      .nav-bar { padding: 0 0.25rem; }
+      .nav-bar a.nav-link { padding: 0.875rem 0.75rem; font-size: 12px; }
+      .nav-btns { margin-left: 0; gap: 4px; padding: 0 0.25rem; align-items: center; }
+      .nav-btns button { font-size: 12px; padding: 0 0.875rem; min-height: 44px; border-radius: 8px; }
+      .container { padding: 1.25rem 1rem 3rem; gap: 1.5rem; }
+      .section-header { padding: 1rem; }
+      .section-header h2 { font-size: 15px; }
+      .video-wrap { padding: 1rem; }
+      .tip { margin: 0 1rem 1rem; font-size: 13px; }
+      .accordion { margin: 0 1rem 1rem; }
+      .accordion summary { padding: 1rem; font-size: 14px; min-height: 50px; }
+      .accordion-body ol { font-size: 14px; gap: 10px; }
+      .accordion-body .alerta { font-size: 13px; }
+      .ouro-grid { grid-template-columns: 1fr; }
+      .ouro-item p { font-size: 13px; }
+      .cta-card { padding: 1.25rem; }
+      .cta-btns { flex-direction: column; }
+      .cta-btn { font-size: 16px; padding: 1rem; min-width: unset; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-icon">🔑</div>
+    <p class="modal-msg" id="modal-msg"></p>
+    <div class="modal-actions">
+      <button class="modal-cancel" onclick="closeModal()">Cancelar</button>
+      <button class="modal-continue" onclick="continueToLink()">Continuar →</button>
+    </div>
+  </div>
+</div>
+
+<header>
+  <img src="https://http2.mlstatic.com/frontend-assets/ui-navigation/5.21.22/mercadolibre/logo__large_plus@2x.png" alt="Mercado Livre" style="height: 32px; object-fit: contain;">
+  <div>
+    <div class="logo-text">Onboarding <span>/ Parceiros</span></div>
+  </div>
+</header>
+
+<div class="hero">
+  <h1>Primeiros passos</h1>
+  <p>Tudo que você precisa para começar. Assista cada etapa no seu tempo — use o menu abaixo para ir direto ao que precisa.</p>
+</div>
+
+<nav class="nav-bar" aria-label="Navegação rápida">
+  <a class="nav-link" href="#passo1"><span class="num">1</span> Recebimento</a>
+  <a class="nav-link" href="#passo2"><span class="num">2</span> Auditoria</a>
+  <a class="nav-link" href="#passo3"><span class="num">3</span> Logistics</a>
+  <a class="nav-link" href="#regras-de-ouro">⭐ Regras de ouro</a>
+  <div class="nav-btns">
+    <button onclick="openModal('https://places.mercadolivre.com.br/operations/logout', 'Use o e-mail jurídico do Mercado Pago informado no cadastro para acessar o app de agência.')">App de agência →</button>
+    <button onclick="openModal('https://learninghub.mercadolivre.com.br', 'Use o e-mail jurídico do Mercado Pago informado no cadastro para acessar o treinamento completo.')">Treinamento →</button>
+  </div>
+</nav>
+
+<main class="container">
+
+  <!-- Passo 1 -->
+  <section class="section-card" id="passo1">
+    <div class="section-header">
+      <div class="step-badge">1</div>
+      <div>
+        <h2>Recebimento de pacotes</h2>
+        <p>Como receber e registrar pacotes no app de agência</p>
+      </div>
+    </div>
+    <div class="video-wrap">
+      <iframe src="https://drive.google.com/file/d/1Y90eLDr59NQVfAanRUxcwbE1LK03xwqW/preview" width="100%" height="360" allow="autoplay" style="border-radius:10px; border:none; display:block;"></iframe>
+    </div>
+    <div class="tip">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" stroke="#e6b800"/><path d="M8 5v3.5M8 10.5v.5" stroke="#e6b800" stroke-width="1.5" stroke-linecap="round"/></svg>
+      O app da agência é acessado por meio do link, e o login deve ser realizado antes do início do recebimento
+    </div>
+    <details class="accordion">
+      <summary>📋 Passo a passo <span class="accordion-arrow">›</span></summary>
+      <div class="accordion-body">
+        <ol>
+          <li>Clique no ícone de QR code na tela inicial do app</li>
+          <li>Escaneie o QR code ou digite o número da saca entregue pelo motorista</li>
+          <li>O app identifica o serviço, confirme que é Delivery clicando em <strong>Continuar</strong></li>
+          <li>Bipe todas as sacas e clique em <strong>Já escaneei todas</strong></li>
+          <li>Tela verde de confirmação → clique em <strong>Entendido</strong> e libere o motorista</li>
+        </ol>
+      </div>
+    </details>
+  </section>
+
+  <!-- Passo 2 -->
+  <section class="section-card" id="passo2">
+    <div class="section-header">
+      <div class="step-badge">2</div>
+      <div>
+        <h2>Auditoria</h2>
+        <p>Como realizar o processo de auditoria dos pacotes</p>
+      </div>
+    </div>
+    <div class="video-wrap">
+      <iframe src="https://drive.google.com/file/d/1RlMq157YBkTY5o6O2IjgkgworN6rLBLv/preview" width="100%" height="360" allow="autoplay" style="border-radius:10px; border:none; display:block;"></iframe>
+    </div>
+    <div class="tip">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" stroke="#e6b800"/><path d="M8 5v3.5M8 10.5v.5" stroke="#e6b800" stroke-width="1.5" stroke-linecap="round"/></svg>
+      A auditoria deve ser feita após o recebimento completo da saca.
+    </div>
+    <details class="accordion">
+      <summary>📋 Passo a passo <span class="accordion-arrow">›</span></summary>
+      <div class="accordion-body">
+        <ol>
+          <li>Abra a saca e conte fisicamente os pacotes</li>
+          <li>No app, digite o número exato da contagem</li>
+          <li>Se bater com o sistema → tela verde → clique em <strong>Finalizar</strong></li>
+          <li>Se não bater → confirme o erro para entrar na Auditoria</li>
+          <li>Escaneie todos os pacotes da saca um por um</li>
+          <li>Tela laranja de alerta → clique em <strong>Finalizar com pacotes a menos</strong></li>
+        </ol>
+        <div class="alerta">
+          ⛔ Tela vermelha durante a bipagem = pacote não corresponde à saca. Não entregue — separe e devolva ao motorista no dia seguinte.
+        </div>
+      </div>
+    </details>
+  </section>
+
+  <!-- Passo 3 -->
+  <section class="section-card" id="passo3">
+    <div class="section-header">
+      <div class="step-badge">3</div>
+      <div>
+        <h2>Rota no app Logistics</h2>
+        <p>Como visualizar e iniciar a rota de entregas</p>
+      </div>
+    </div>
+    <div class="video-wrap">
+     <iframe src="https://drive.google.com/file/d/1kHXF4jHitSfXg9H3Wu009cfch1469cWU/preview" width="100%" height="360" allow="autoplay" style="border-radius:10px; border:none; display:block;"></iframe>
+    </div>
+    <div class="tip">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" stroke="#e6b800"/><path d="M8 5v3.5M8 10.5v.5" stroke="#e6b800" stroke-width="1.5" stroke-linecap="round"/></svg>
+      Ative o GPS antes de iniciar a rota. O app precisa de permissão de localização.
+    </div>
+    <details class="accordion">
+      <summary>📋 Passo a passo <span class="accordion-arrow">›</span></summary>
+      <div class="accordion-body">
+        <ol>
+          <li>Abra o app Logistics</li>
+          <li>Na tela inicial, clique em <strong>Iniciar nova rota</strong></li>
+          <li>Selecione <strong>Escanear código QR do veículo ou agência</strong></li>
+          <li>A câmera será ativada, escaneie o QR code da <strong>agência</strong></li>
+          <li>Após confirmação, escaneie o QR code da <strong>saca</strong></li>
+          <li>Tela verde: rota carregada e mapa da primeira entrega liberado</li>
+        </ol>
+      </div>
+    </details>
+  </section>
+
+  <!-- Regras de ouro -->
+  <div class="ouro-section" id="regras-de-ouro">
+    <div class="ouro-title">
+      <span class="label-regras">Regras de</span>
+      <span class="label-ouro">OURO</span>
+    </div>
+    <div class="ouro-grid">
+      <div class="ouro-item">
+        <div class="ouro-num">1</div>
+        <p>Bipe os QR codes de cada saca no <strong>App de agência</strong>. Não receba saca sem QR code.</p>
+      </div>
+      <div class="ouro-item">
+        <div class="ouro-num">2</div>
+        <p>Abra a saca e conte os pacotes. Se não bater, entre em <strong>Auditoria</strong> e bipe cada pacote.</p>
+      </div>
+      <div class="ouro-item">
+        <div class="ouro-num">3</div>
+        <p>No <strong>App Logistics</strong>: 1º QR da agência, depois QR da saca. A ordem é obrigatória!</p>
+      </div>
+      <div class="ouro-item">
+        <div class="ouro-num">4</div>
+        <p>Faça as entregas com <strong>"Estou chegando"</strong>. Registre nome e documento. Se falhar: <strong>"Não pude entregar"</strong>.</p>
+      </div>
+      <div class="ouro-item">
+        <div class="ouro-num">5</div>
+        <p>Fim do dia: bipe os pacotes que voltaram no <strong>App de agência</strong> para registrar o retorno. A rota não finaliza sozinha!</p>
+      </div>
+      <div class="ouro-item">
+        <div class="ouro-num">6</div>
+        <p>No próximo dia, devolva ao motorista pacotes com 3 tentativas e escaneie o QR dele. Devolva a saca vazia!</p>
+      </div>
+    </div>
+    <div class="ouro-alerta">
+      ⚠️ Sempre escaneie os pacotes ao receber e ao entregar. Extravios impactam os indicadores!
+    </div>
+  </div>
+
+  <!-- CTA final -->
+  <div class="cta-card">
+    <h3>Pronto para começar?</h3>
+    <p class="cta-sub">Use o e-mail jurídico do Mercado Pago informado no seu cadastro.</p>
+    <div class="cta-btns">
+      <button class="cta-btn" onclick="openModal('https://places.mercadolivre.com.br/operations/logout', 'Use o e-mail jurídico do Mercado Pago informado no cadastro para acessar o app de agência.')">🔑 App de agência →</button>
+      <button class="cta-btn" onclick="openModal('https://learninghub.mercadolivre.com.br', 'Use o e-mail jurídico do Mercado Pago informado no cadastro para acessar o treinamento completo.')">🔑 Treinamento completo →</button>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  Material de onboarding interno — Mercado Livre Logística
+</footer>
+
+
+<script>
+  // ── Modal ──
+  let pendingLink = '';
+
+  function openModal(link, msg) {
+    pendingLink = link;
+    document.getElementById('modal-msg').textContent = msg;
+    document.getElementById('modal-overlay').classList.add('active');
+  }
+
+  function closeModal() {
+    document.getElementById('modal-overlay').classList.remove('active');
+  }
+
+  function continueToLink() {
+    closeModal();
+    window.open(pendingLink, '_blank');
+  }
+
+  document.getElementById('modal-overlay').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+  });
+
+  // ── Vídeos ──
+  const videos = document.querySelectorAll('video');
+  const totalSteps = videos.length;
+  let completed = 0;
+
+  const hero = document.querySelector('.hero');
+  const progressBar = document.createElement('div');
+  progressBar.style.cssText = 'margin-top: 1rem; display: flex; align-items: center; gap: 10px;';
+  progressBar.innerHTML = `
+    <div style="flex:1; height:6px; background:rgba(0,0,0,0.12); border-radius:999px; overflow:hidden;">
+      <div id="progress-fill" style="height:100%; width:0%; background:#1a1a1a; border-radius:999px; transition: width 0.4s ease;"></div>
+    </div>
+    <span id="progress-text" style="font-size:13px; font-weight:600; color:#444; white-space:nowrap;">0 de ${totalSteps} concluídos</span>
+  `;
+  hero.appendChild(progressBar);
+
+  function updateProgress() {
+    const pct = (completed / totalSteps) * 100;
+    document.getElementById('progress-fill').style.width = pct + '%';
+    document.getElementById('progress-text').textContent =
+      completed === totalSteps ? '✓ Tudo concluído!' : `${completed} de ${totalSteps} concluídos`;
+  }
+
+  videos.forEach(video => {
+    const section = video.closest('.section-card');
+    const badge = section.querySelector('.step-badge');
+
+    video.addEventListener('play', () => {
+      videos.forEach(other => { if (other !== video) other.pause(); });
+    });
+
+    video.addEventListener('ended', () => {
+      if (!badge.dataset.done) {
+        badge.dataset.done = 'true';
+        badge.style.background = '#1a1a1a';
+        badge.style.color = '#FFE600';
+        badge.innerHTML = '&#10003;';
+        completed++;
+        updateProgress();
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
