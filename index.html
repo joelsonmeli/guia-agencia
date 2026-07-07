@@ -5,15 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Onboarding Parceiros — Primeiros Passos</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      /* FIX 1: remove o highlight azul/cinza nativo do iOS/Android ao tocar */
+      -webkit-tap-highlight-color: transparent;
+    }
     html { scroll-behavior: smooth; }
-
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       background: #f5f5f5;
       color: #1a1a1a;
     }
-
     header {
       background: #FFE600;
       padding: 1.5rem 2rem;
@@ -22,9 +26,7 @@
       gap: 1rem;
       border-bottom: 3px solid #e6cf00;
     }
-
     header img { height: 32px; }
-
     header .logo-text {
       font-size: 13px;
       font-weight: 600;
@@ -32,18 +34,14 @@
       letter-spacing: 0.02em;
       text-transform: uppercase;
     }
-
     header .logo-text span { font-weight: 400; color: #555; }
-
     .hero {
       background: #FFE600;
       padding: 1.25rem 2rem 1.5rem;
       border-bottom: 3px solid #e6cf00;
     }
-
     .hero h1 { font-size: 26px; font-weight: 700; color: #1a1a1a; margin-bottom: 0.5rem; }
     .hero p { font-size: 15px; color: #444; max-width: 560px; }
-
     /* Nav */
     .nav-bar {
       background: #fff;
@@ -58,7 +56,6 @@
       box-shadow: 0 2px 6px rgba(0,0,0,0.06);
       overflow-x: auto;
     }
-
     .nav-bar a.nav-link {
       display: flex;
       align-items: center;
@@ -73,13 +70,11 @@
       white-space: nowrap;
       flex-shrink: 0;
     }
-
     .nav-bar a.nav-link:hover {
       color: #1a1a1a;
       border-bottom-color: #FFE600;
       background: #fffce6;
     }
-
     .nav-bar a.nav-link .num {
       width: 22px;
       height: 22px;
@@ -92,7 +87,6 @@
       justify-content: center;
       color: #1a1a1a;
     }
-
     .nav-btns {
       margin-left: auto;
       display: flex;
@@ -101,7 +95,6 @@
       padding: 0 0.5rem;
       flex-shrink: 0;
     }
-
     .nav-btns button {
       background: #1a1a1a;
       color: #FFE600;
@@ -114,9 +107,7 @@
       white-space: nowrap;
       transition: background 0.15s;
     }
-
     .nav-btns button:hover { background: #333; }
-
     /* Container */
     .container {
       max-width: 860px;
@@ -126,7 +117,6 @@
       flex-direction: column;
       gap: 2.5rem;
     }
-
     /* Section cards */
     .section-card {
       background: #fff;
@@ -135,7 +125,6 @@
       overflow: hidden;
       scroll-margin-top: 70px;
     }
-
     .section-header {
       display: flex;
       align-items: center;
@@ -144,7 +133,6 @@
       border-bottom: 1px solid #f0f0f0;
       background: #fafafa;
     }
-
     .step-badge {
       width: 34px;
       height: 34px;
@@ -159,39 +147,38 @@
       flex-shrink: 0;
       transition: background 0.3s, color 0.3s;
     }
-
     .section-header h2 { font-size: 17px; font-weight: 600; color: #1a1a1a; }
     .section-header p { font-size: 13px; color: #777; margin-top: 2px; }
 
     .video-wrap { padding: 1.5rem; }
 
+    /* FIX 2: aspect-ratio substitui o hack padding-bottom: 56.25%
+       Funciona em todos os navegadores modernos e resolve o corte em mobile */
     .video-responsive {
       position: relative;
-      padding-bottom: 56.25%; /* 16:9 */
-      height: 0;
-      overflow: hidden;
+      width: 100%;
+      aspect-ratio: 16 / 9;
       border-radius: 10px;
       background: #000;
+      overflow: hidden;
+      /* Garante que o iframe não vaze para fora do border-radius no iOS */
+      -webkit-mask-image: -webkit-radial-gradient(white, black);
+      mask-image: radial-gradient(white, black);
     }
-    .video-responsive::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 50px;
-      height: 50px;
-      z-index: 10;
-    }
+    /* FIX 2b: iframe ocupa 100% do container — sem position absolute necessária
+       quando o pai já tem dimensão definida pelo aspect-ratio */
     .video-responsive iframe {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      border: none;
-      border-radius: 10px;
+      border: 0;
       display: block;
     }
+    /* FIX 1b: ::after foi REMOVIDO — era ele que criava a "sombra" ao tocar.
+       O overlay de 50x50px no canto superior direito interceptava os toques
+       e ativava o tap-highlight nativo do iOS/Android. */
 
     .tip {
       display: flex;
@@ -205,8 +192,35 @@
       font-size: 13px;
       color: #555;
     }
-
     .tip svg { flex-shrink: 0; margin-top: 1px; }
+
+    /* FIX 3: botão "Marcar como assistido" por vídeo */
+    .mark-watched-wrap {
+      padding: 0 1.5rem 0.75rem;
+      display: flex;
+      justify-content: flex-end;
+    }
+    .mark-watched-btn {
+      background: transparent;
+      border: 1.5px solid #e0e0e0;
+      border-radius: 8px;
+      padding: 0.5rem 1rem;
+      font-size: 12px;
+      font-weight: 600;
+      color: #777;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    .mark-watched-btn:hover { border-color: #1a1a1a; color: #1a1a1a; background: #f5f5f5; }
+    .mark-watched-btn.done {
+      background: #1a1a1a;
+      border-color: #1a1a1a;
+      color: #FFE600;
+      cursor: default;
+    }
 
     /* Accordion */
     .accordion {
@@ -215,7 +229,6 @@
       border-radius: 10px;
       overflow: hidden;
     }
-
     .accordion summary {
       display: flex;
       align-items: center;
@@ -230,29 +243,23 @@
       user-select: none;
       gap: 8px;
     }
-
     .accordion summary::-webkit-details-marker { display: none; }
     .accordion summary:hover { background: #f0f0f0; }
-
     .accordion[open] summary {
       border-bottom: 1px solid #e0e0e0;
       background: #fff;
     }
-
     .accordion-arrow {
       font-size: 16px;
       color: #999;
       transition: transform 0.2s;
       flex-shrink: 0;
     }
-
     .accordion[open] .accordion-arrow { transform: rotate(90deg); }
-
     .accordion-body {
       padding: 1rem 1rem 1.125rem;
       background: #fff;
     }
-
     .accordion-body ol {
       padding-left: 1.25rem;
       display: flex;
@@ -262,7 +269,6 @@
       color: #444;
       line-height: 1.6;
     }
-
     .accordion-body .alerta {
       display: flex;
       align-items: flex-start;
@@ -276,7 +282,6 @@
       color: #cc3333;
       font-weight: 500;
     }
-
     /* Regras de ouro */
     .ouro-section {
       background: #FFE600;
@@ -284,14 +289,12 @@
       padding: 1.75rem;
       scroll-margin-top: 70px;
     }
-
     .ouro-title {
       display: flex;
       align-items: center;
       gap: 10px;
       margin-bottom: 1.25rem;
     }
-
     .ouro-title .label-regras {
       background: #1a1a1a;
       color: #FFE600;
@@ -300,7 +303,6 @@
       padding: 4px 12px;
       border-radius: 7px;
     }
-
     .ouro-title .label-ouro {
       background: #FFE600;
       color: #1a1a1a;
@@ -310,14 +312,12 @@
       border-radius: 7px;
       border: 3px solid #1a1a1a;
     }
-
     .ouro-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 8px;
       margin-bottom: 10px;
     }
-
     .ouro-item {
       background: rgba(255,255,255,0.65);
       border-radius: 10px;
@@ -326,7 +326,6 @@
       gap: 10px;
       align-items: flex-start;
     }
-
     .ouro-num {
       width: 24px;
       height: 24px;
@@ -341,9 +340,7 @@
       flex-shrink: 0;
       margin-top: 1px;
     }
-
     .ouro-item p { font-size: 12px; color: #1a1a1a; line-height: 1.55; }
-
     .ouro-alerta {
       background: rgba(255,255,255,0.75);
       border-radius: 10px;
@@ -355,19 +352,15 @@
       font-weight: 600;
       color: #1a1a1a;
     }
-
     /* CTA */
     .cta-card {
       background: #1a1a1a;
       border-radius: 14px;
       padding: 2rem;
     }
-
     .cta-card h3 { font-size: 18px; font-weight: 600; color: #FFE600; margin-bottom: 4px; }
     .cta-card .cta-sub { font-size: 13px; color: #888; margin-bottom: 1.25rem; }
-
     .cta-btns { display: flex; gap: 10px; flex-wrap: wrap; }
-
     .cta-btn {
       flex: 1;
       min-width: 160px;
@@ -382,9 +375,7 @@
       text-align: center;
       transition: background 0.15s;
     }
-
     .cta-btn:hover { background: #f5d800; }
-
     footer {
       text-align: center;
       padding: 2rem;
@@ -392,7 +383,6 @@
       color: #aaa;
       border-top: 1px solid #e8e8e8;
     }
-
     /* Modal */
     .modal-overlay {
       display: none;
@@ -404,9 +394,7 @@
       justify-content: center;
       padding: 1rem;
     }
-
     .modal-overlay.active { display: flex; }
-
     .modal-box {
       background: #fff;
       border-radius: 16px;
@@ -415,18 +403,14 @@
       width: 100%;
       text-align: center;
     }
-
     .modal-icon { font-size: 2rem; margin-bottom: 1rem; }
-
     .modal-msg {
       font-size: 15px;
       color: #1a1a1a;
       line-height: 1.65;
       margin-bottom: 1.5rem;
     }
-
     .modal-actions { display: flex; gap: 8px; }
-
     .modal-cancel {
       flex: 1;
       padding: 0.875rem;
@@ -437,7 +421,6 @@
       cursor: pointer;
       color: #555;
     }
-
     .modal-continue {
       flex: 1;
       padding: 0.875rem;
@@ -449,10 +432,8 @@
       font-weight: 700;
       cursor: pointer;
     }
-
     .modal-cancel:hover { background: #f5f5f5; }
     .modal-continue:hover { background: #f5d800; }
-
     /* Mobile */
     @media (max-width: 600px) {
       header { padding: 1rem; }
@@ -468,6 +449,7 @@
       .section-header h2 { font-size: 15px; }
       .video-wrap { padding: 1rem; }
       .tip { margin: 0 1rem 1rem; font-size: 13px; }
+      .mark-watched-wrap { padding: 0 1rem 0.75rem; }
       .accordion { margin: 0 1rem 1rem; }
       .accordion summary { padding: 1rem; font-size: 14px; min-height: 50px; }
       .accordion-body ol { font-size: 14px; gap: 10px; }
@@ -522,7 +504,7 @@
   <!-- Passo 1 -->
   <section class="section-card" id="passo1">
     <div class="section-header">
-      <div class="step-badge">1</div>
+      <div class="step-badge" id="badge-1">1</div>
       <div>
         <h2>Recebimento de pacotes</h2>
         <p>Como receber e registrar pacotes no app de agência</p>
@@ -530,12 +512,22 @@
     </div>
     <div class="video-wrap">
       <div class="video-responsive">
-        <iframe src="https://drive.google.com/file/d/1Y90eLDr59NQVfAanRUxcwbE1LK03xwqW/preview" allow="autoplay"></iframe>
+        <iframe
+          src="https://drive.google.com/file/d/1Y90eLDr59NQVfAanRUxcwbE1LK03xwqW/preview"
+          allow="autoplay"
+          allowfullscreen
+          frameborder="0">
+        </iframe>
       </div>
     </div>
     <div class="tip">
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" stroke="#e6b800"/><path d="M8 5v3.5M8 10.5v.5" stroke="#e6b800" stroke-width="1.5" stroke-linecap="round"/></svg>
       Certifique-se de ter o app instalado e login realizado antes de iniciar o recebimento.
+    </div>
+    <div class="mark-watched-wrap">
+      <button class="mark-watched-btn" id="watch-btn-1" onclick="markWatched(1)">
+        ✓ Marcar como assistido
+      </button>
     </div>
     <details class="accordion">
       <summary>📋 Passo a passo <span class="accordion-arrow">›</span></summary>
@@ -554,7 +546,7 @@
   <!-- Passo 2 -->
   <section class="section-card" id="passo2">
     <div class="section-header">
-      <div class="step-badge">2</div>
+      <div class="step-badge" id="badge-2">2</div>
       <div>
         <h2>Auditoria</h2>
         <p>Como realizar o processo de auditoria dos pacotes</p>
@@ -562,12 +554,22 @@
     </div>
     <div class="video-wrap">
       <div class="video-responsive">
-        <iframe src="https://drive.google.com/file/d/1RlMq157YBkTY5o6O2IjgkgworN6rLBLv/preview" allow="autoplay"></iframe>
+        <iframe
+          src="https://drive.google.com/file/d/1RlMq157YBkTY5o6O2IjgkgworN6rLBLv/preview"
+          allow="autoplay"
+          allowfullscreen
+          frameborder="0">
+        </iframe>
       </div>
     </div>
     <div class="tip">
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" stroke="#e6b800"/><path d="M8 5v3.5M8 10.5v.5" stroke="#e6b800" stroke-width="1.5" stroke-linecap="round"/></svg>
       A auditoria deve ser feita após o recebimento completo do lote.
+    </div>
+    <div class="mark-watched-wrap">
+      <button class="mark-watched-btn" id="watch-btn-2" onclick="markWatched(2)">
+        ✓ Marcar como assistido
+      </button>
     </div>
     <details class="accordion">
       <summary>📋 Passo a passo <span class="accordion-arrow">›</span></summary>
@@ -590,7 +592,7 @@
   <!-- Passo 3 -->
   <section class="section-card" id="passo3">
     <div class="section-header">
-      <div class="step-badge">3</div>
+      <div class="step-badge" id="badge-3">3</div>
       <div>
         <h2>Rota no app Logistics</h2>
         <p>Como visualizar e iniciar a rota de entregas</p>
@@ -598,12 +600,22 @@
     </div>
     <div class="video-wrap">
       <div class="video-responsive">
-        <iframe src="https://drive.google.com/file/d/1kHXF4jHitSfXg9H3Wu009cfch1469cWU/preview" allow="autoplay"></iframe>
+        <iframe
+          src="https://drive.google.com/file/d/1kHXF4jHitSfXg9H3Wu009cfch1469cWU/preview"
+          allow="autoplay"
+          allowfullscreen
+          frameborder="0">
+        </iframe>
       </div>
     </div>
     <div class="tip">
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" stroke="#e6b800"/><path d="M8 5v3.5M8 10.5v.5" stroke="#e6b800" stroke-width="1.5" stroke-linecap="round"/></svg>
       Ative o GPS antes de iniciar a rota. O app precisa de permissão de localização.
+    </div>
+    <div class="mark-watched-wrap">
+      <button class="mark-watched-btn" id="watch-btn-3" onclick="markWatched(3)">
+        ✓ Marcar como assistido
+      </button>
     </div>
     <details class="accordion">
       <summary>📋 Passo a passo <span class="accordion-arrow">›</span></summary>
@@ -673,35 +685,35 @@
   Material de onboarding interno — Mercado Livre Logística
 </footer>
 
-
 <script>
   // ── Modal ──
   let pendingLink = '';
-
   function openModal(link, msg) {
     pendingLink = link;
     document.getElementById('modal-msg').textContent = msg;
     document.getElementById('modal-overlay').classList.add('active');
   }
-
   function closeModal() {
     document.getElementById('modal-overlay').classList.remove('active');
   }
-
   function continueToLink() {
     closeModal();
     window.open(pendingLink, '_blank');
   }
-
   document.getElementById('modal-overlay').addEventListener('click', function(e) {
     if (e.target === this) closeModal();
   });
 
-  // ── Vídeos ──
-  const videos = document.querySelectorAll('video');
-  const totalSteps = videos.length;
-  let completed = 0;
+  // ── FIX 3: Progresso via botões "Marcar como assistido" ──
+  // Os vídeos são iframes cross-origin (Google Drive), então eventos como
+  // 'ended' não são acessíveis via JS. A solução é deixar o usuário marcar
+  // manualmente após assistir — simples, confiável e funciona em qualquer browser.
 
+  const TOTAL_STEPS = 3;
+  let completed = 0;
+  const watchedSet = new Set();
+
+  // Barra de progresso no hero
   const hero = document.querySelector('.hero');
   const progressBar = document.createElement('div');
   progressBar.style.cssText = 'margin-top: 1rem; display: flex; align-items: center; gap: 10px;';
@@ -709,49 +721,37 @@
     <div style="flex:1; height:6px; background:rgba(0,0,0,0.12); border-radius:999px; overflow:hidden;">
       <div id="progress-fill" style="height:100%; width:0%; background:#1a1a1a; border-radius:999px; transition: width 0.4s ease;"></div>
     </div>
-    <span id="progress-text" style="font-size:13px; font-weight:600; color:#444; white-space:nowrap;">0 de ${totalSteps} concluídos</span>
+    <span id="progress-text" style="font-size:13px; font-weight:600; color:#444; white-space:nowrap;">0 de ${TOTAL_STEPS} concluídos</span>
   `;
   hero.appendChild(progressBar);
 
-  function updateProgress() {
-    const pct = (completed / totalSteps) * 100;
+  function markWatched(stepNum) {
+    if (watchedSet.has(stepNum)) return; // já marcado
+    watchedSet.add(stepNum);
+    completed++;
+
+    // Atualiza badge do passo
+    const badge = document.getElementById('badge-' + stepNum);
+    if (badge) {
+      badge.style.background = '#1a1a1a';
+      badge.style.color = '#FFE600';
+      badge.innerHTML = '&#10003;';
+    }
+
+    // Atualiza o botão
+    const btn = document.getElementById('watch-btn-' + stepNum);
+    if (btn) {
+      btn.classList.add('done');
+      btn.textContent = '✓ Assistido';
+      btn.disabled = true;
+    }
+
+    // Atualiza a barra de progresso
+    const pct = (completed / TOTAL_STEPS) * 100;
     document.getElementById('progress-fill').style.width = pct + '%';
     document.getElementById('progress-text').textContent =
-      completed === totalSteps ? '✓ Tudo concluído!' : `${completed} de ${totalSteps} concluídos`;
+      completed === TOTAL_STEPS ? '✓ Tudo concluído!' : `${completed} de ${TOTAL_STEPS} concluídos`;
   }
-
-  videos.forEach(video => {
-    const section = video.closest('.section-card');
-    const badge = section.querySelector('.step-badge');
-
-    video.addEventListener('play', () => {
-      videos.forEach(other => { if (other !== video) other.pause(); });
-    });
-
-    video.addEventListener('ended', () => {
-      if (!badge.dataset.done) {
-        badge.dataset.done = 'true';
-        badge.style.background = '#1a1a1a';
-        badge.style.color = '#FFE600';
-        badge.innerHTML = '&#10003;';
-        completed++;
-        updateProgress();
-      }
-    });
-  });
-window.addEventListener('blur', () => {
-    const focused = document.activeElement;
-    if (focused && focused.tagName === 'IFRAME') {
-      document.querySelectorAll('.video-responsive iframe').forEach(iframe => {
-        if (iframe !== focused) {
-          const src = iframe.src;
-          iframe.src = '';
-          setTimeout(() => iframe.src = src, 50);
-        }
-      });
-    }
-  });
 </script>
-
 </body>
 </html>
