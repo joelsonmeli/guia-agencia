@@ -165,12 +165,24 @@
 
     .video-wrap { padding: 1.5rem; }
 
-    video {
-      width: 100%;
+    .video-responsive {
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 */
+      height: 0;
+      overflow: hidden;
       border-radius: 10px;
       background: #000;
+    }
+
+    .video-responsive iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      border-radius: 10px;
       display: block;
-      max-height: 460px;
     }
 
     .tip {
@@ -509,11 +521,13 @@
       </div>
     </div>
     <div class="video-wrap">
-      <iframe src="https://drive.google.com/file/d/1Y90eLDr59NQVfAanRUxcwbE1LK03xwqW/preview" width="100%" height="360" allow="autoplay" style="border-radius:10px; border:none; display:block;"></iframe>
+      <div class="video-responsive">
+        <iframe src="https://drive.google.com/file/d/1Y90eLDr59NQVfAanRUxcwbE1LK03xwqW/preview" allow="autoplay"></iframe>
+      </div>
     </div>
     <div class="tip">
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" stroke="#e6b800"/><path d="M8 5v3.5M8 10.5v.5" stroke="#e6b800" stroke-width="1.5" stroke-linecap="round"/></svg>
-      O app da agência é acessado por meio do link, e o login deve ser realizado antes do início do recebimento
+      Certifique-se de ter o app instalado e login realizado antes de iniciar o recebimento.
     </div>
     <details class="accordion">
       <summary>📋 Passo a passo <span class="accordion-arrow">›</span></summary>
@@ -521,7 +535,7 @@
         <ol>
           <li>Clique no ícone de QR code na tela inicial do app</li>
           <li>Escaneie o QR code ou digite o número da saca entregue pelo motorista</li>
-          <li>O app identifica o serviço, confirme que é Delivery clicando em <strong>Continuar</strong></li>
+          <li>O app identifica o serviço — confirme que é Delivery clicando em <strong>Continuar</strong></li>
           <li>Bipe todas as sacas e clique em <strong>Já escaneei todas</strong></li>
           <li>Tela verde de confirmação → clique em <strong>Entendido</strong> e libere o motorista</li>
         </ol>
@@ -539,11 +553,13 @@
       </div>
     </div>
     <div class="video-wrap">
-      <iframe src="https://drive.google.com/file/d/1RlMq157YBkTY5o6O2IjgkgworN6rLBLv/preview" width="100%" height="360" allow="autoplay" style="border-radius:10px; border:none; display:block;"></iframe>
+      <div class="video-responsive">
+        <iframe src="https://drive.google.com/file/d/1RlMq157YBkTY5o6O2IjgkgworN6rLBLv/preview" allow="autoplay"></iframe>
+      </div>
     </div>
     <div class="tip">
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" stroke="#e6b800"/><path d="M8 5v3.5M8 10.5v.5" stroke="#e6b800" stroke-width="1.5" stroke-linecap="round"/></svg>
-      A auditoria deve ser feita após o recebimento completo da saca.
+      A auditoria deve ser feita após o recebimento completo do lote.
     </div>
     <details class="accordion">
       <summary>📋 Passo a passo <span class="accordion-arrow">›</span></summary>
@@ -573,7 +589,9 @@
       </div>
     </div>
     <div class="video-wrap">
-     <iframe src="https://drive.google.com/file/d/1kHXF4jHitSfXg9H3Wu009cfch1469cWU/preview" width="100%" height="360" allow="autoplay" style="border-radius:10px; border:none; display:block;"></iframe>
+      <div class="video-responsive">
+        <iframe src="https://drive.google.com/file/d/1kHXF4jHitSfXg9H3Wu009cfch1469cWU/preview" allow="autoplay"></iframe>
+      </div>
     </div>
     <div class="tip">
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" stroke="#e6b800"/><path d="M8 5v3.5M8 10.5v.5" stroke="#e6b800" stroke-width="1.5" stroke-linecap="round"/></svg>
@@ -586,8 +604,8 @@
           <li>Abra o app Logistics</li>
           <li>Na tela inicial, clique em <strong>Iniciar nova rota</strong></li>
           <li>Selecione <strong>Escanear código QR do veículo ou agência</strong></li>
-          <li>A câmera será ativada, escaneie o QR code da <strong>agência</strong></li>
-          <li>Após confirmação, escaneie o QR code da <strong>saca</strong></li>
+          <li>A câmera será ativada — escaneie o QR code da <strong>agência de partida</strong></li>
+          <li>Após confirmação, escaneie o QR code da <strong>saca de entregas</strong></li>
           <li>Tela verde: rota carregada e mapa da primeira entrega liberado</li>
         </ol>
       </div>
