@@ -173,7 +173,15 @@
       border-radius: 10px;
       background: #000;
     }
-
+    .video-responsive::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 50px;
+      height: 50px;
+      z-index: 10;
+    }
     .video-responsive iframe {
       position: absolute;
       top: 0;
@@ -730,6 +738,18 @@
         updateProgress();
       }
     });
+  });
+window.addEventListener('blur', () => {
+    const focused = document.activeElement;
+    if (focused && focused.tagName === 'IFRAME') {
+      document.querySelectorAll('.video-responsive iframe').forEach(iframe => {
+        if (iframe !== focused) {
+          const src = iframe.src;
+          iframe.src = '';
+          setTimeout(() => iframe.src = src, 50);
+        }
+      });
+    }
   });
 </script>
 
